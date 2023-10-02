@@ -1,8 +1,9 @@
 import json
 
-from authlib.integrations.django_client import OAuth
+from authlib.integrations.django_client import OAuth, OAuthError
 from django.conf import settings
 from django.contrib.auth import login, logout
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .models import User
@@ -43,7 +44,15 @@ def index(request):
 
 def oauth_redirect(request):
     # TODO the call below can fail -- fail hard? show an error?
-    token = rc_oauth.authorize_access_token(request)
+    try:
+        token = rc_oauth.authorize_access_token(request)
+    except OAuthError as e:
+        if e.error == "access_denied":
+            return HttpResponse(
+                b"""looks like you denied access, that's ok. <a href="/">want to try again?</a>"""
+            )
+        raise
+
     profile = get_profile(token["access_token"])
     rc_user_id = profile["id"]
 
