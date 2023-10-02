@@ -1,11 +1,8 @@
 ## checkintopus
 
-### what
-
-this is the software/web/oauth-y counterpart of the octopus sign in project. the hardware repo is [here](https://github.com/gregsadetsky/recurse-rfid-visits/).
-
 ### TODO
 
+- finish [minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
 - restart this dir from that starter, git push force
 - add render deployment-specific files
 - separate settings into prod/dev
@@ -34,9 +31,4 @@ this is the software/web/oauth-y counterpart of the octopus sign in project. the
 - enable s3 bucket versioning to not lose any files if a mistake happens
 - connect papertrail
 - enable database backups
-- rename this project/repo/deployment/domain based on the [poll in zulip](https://recurse.zulipchat.com/#narrow/stream/19042-.F0.9F.A7.91.E2.80.8D.F0.9F.92.BB-current-batches/topic/naming.20suggestion/near/394473437)
-
-### huh
-
-- [powered by minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
-- this project was done during my time at the [Recurse Center](https://recurse.com/)
+- link in readme to rfid project
