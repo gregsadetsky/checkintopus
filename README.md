@@ -2,8 +2,9 @@
 
 ### TODO
 
-- kill digital ocean dokku server
-- remove dokku-specific things i.e. procfile, runtime
+- finish [minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
+- restart this dir from that starter, git push force
+
 - add render deployment-specific files
 - separate settings into prod/dev
 - deploy to render
