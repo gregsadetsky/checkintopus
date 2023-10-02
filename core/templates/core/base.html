@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkintopus</title>
+  <style>
+      /* lifted from https://nfdg.com/ */
+      body {
+          line-height: 1.4;
+          font-size: 16px;
+          padding: 0 25px;
+          margin: 25px auto;
+          max-width: 650px; 
+      }
+
+      ul {
+          margin-top: 0px;
+      }
+
+      #maincontent {
+          max-width: 38em;
+          margin: 15 auto;
+          margin-top: 70px;
+      }
+  </style>
+</head>
+<body>
+
+<h2>Checkintopus</h2>
+
+{% if messages %}
+  <ul class="messages" style="background:#eee">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
+
+{% block content %}
+{% endblock content %}
+
+</body>
+</html>

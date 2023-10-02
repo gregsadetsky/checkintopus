@@ -139,3 +139,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project
 AUTH_USER_MODEL = "core.User"
+
+RC_OAUTH_APP_ID = os.environ["RC_OAUTH_APP_ID"]
+RC_OAUTH_APP_SECRET = os.environ["RC_OAUTH_APP_SECRET"]
+RC_OAUTH_REDIRECT_URI = os.environ["RC_OAUTH_REDIRECT_URI"]
+
+AUTHLIB_OAUTH_CLIENTS = {
+    "rc": {
+        "client_id": os.environ["RC_OAUTH_APP_ID"],
+        "client_secret": os.environ["RC_OAUTH_APP_SECRET"],
+        "api_base_url": "https://www.recurse.com/api/v1/",
+        "authorize_url": "https://www.recurse.com/oauth/authorize",
+        "access_token_url": "https://www.recurse.com/oauth/token",
+    }
+}
