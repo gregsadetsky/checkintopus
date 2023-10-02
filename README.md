@@ -31,3 +31,4 @@
 - enable s3 bucket versioning to not lose any files if a mistake happens
 - connect papertrail
 - enable database backups
+- link in readme to rfid project
