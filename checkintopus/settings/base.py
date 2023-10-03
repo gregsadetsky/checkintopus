@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import uuid
 from pathlib import Path
 
 import dj_database_url
@@ -120,18 +121,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = "static/"
-# https://whitenoise.readthedocs.io/en/latest/django.html
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -152,4 +141,27 @@ AUTHLIB_OAUTH_CLIENTS = {
         "authorize_url": "https://www.recurse.com/oauth/authorize",
         "access_token_url": "https://www.recurse.com/oauth/token",
     }
+}
+
+RASPI_SCAN_UUID_API_KEY = os.environ["RASPI_SCAN_UUID_API_KEY"]
+assert RASPI_SCAN_UUID_API_KEY and len(RASPI_SCAN_UUID_API_KEY) == 36
+# the following will fail if the given key is not a uuid
+_ = uuid.UUID(RASPI_SCAN_UUID_API_KEY)
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+STATIC_URL = "static/"
+# https://whitenoise.readthedocs.io/en/latest/django.html
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+        },
+    },
 }

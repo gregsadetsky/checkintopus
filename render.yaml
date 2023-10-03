@@ -32,3 +32,5 @@ services:
         sync: false
       - key: RC_OAUTH_REDIRECT_URI
         sync: false
+      - key: RASPI_SCAN_UUID_API_KEY
+        sync: false
