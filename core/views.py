@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import User
+from .models import Sound, User
 from .utils_rc_api import UnauthorizedError, get_profile
 
 rc_oauth = OAuth().register(
@@ -24,21 +24,19 @@ def index(request):
     if not request.user.is_authenticated:
         return rc_oauth.authorize_redirect(request, settings.RC_OAUTH_REDIRECT_URI)
 
-    rc_user_id = request.user.rc_user_id
-
     try:
-        profile = get_profile(request.user.access_token)
+        rc_profile = get_profile(request.user.access_token)
     except UnauthorizedError:
         request.user.delete()
         logout(request)
         return redirect("index")
 
+    all_community_sounds = Sound.objects.filter().order_by("name")
+
     return render(
         request,
         "core/index.html",
-        {
-            "profile": profile,
-        },
+        {"rc_profile": rc_profile, "all_community_sounds": all_community_sounds},
     )
 
 
