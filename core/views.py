@@ -134,10 +134,10 @@ def add_community_sound(request):
         Sound.objects.create(
             file=file,
         )
-        # redirect to avoid back-reload-resubmit issues
 
         messages.success(request, "sound added!")
 
+        # redirect to avoid back-reload-resubmit issues
         return redirect("add_community_sound")
 
     return render(request, "core/add_community_sound.html")
@@ -165,9 +165,9 @@ def delete_community_sound(request):
         sound_obj.file.delete()
         sound_obj.delete()
 
-        # redirect to avoid back-reload-resubmit issues
         messages.success(request, "sound deleted!")
 
+        # redirect to avoid back-reload-resubmit issues
         return redirect("delete_community_sound")
 
     all_community_sounds = Sound.objects.all()

@@ -6,15 +6,13 @@ this is the software/web/UI/oauth-y counterpart of the octopus sign in project. 
 
 ### TODO
 
-- re-record all sounds
+- re-record all sounds - onboarding, fruits and colors
 - rename .recurse.com subdomains once project name has been decided
 - render:
-  - enable database backups
   - connect papertrail
 - auth token vs refresh token - what is it
 - rename this project/repo/deployment/render domain/oauth dev&prod apps based on the [poll in zulip](https://recurse.zulipchat.com/#narrow/stream/19042-.F0.9F.A7.91.E2.80.8D.F0.9F.92.BB-current-batches/topic/naming.20suggestion/near/394473437)
   - probs just redeploy on render after name change here to simplify things
-  - rename local db too
 
 ### hosting details
 
