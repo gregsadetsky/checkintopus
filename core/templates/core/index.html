@@ -3,43 +3,25 @@
 {% block content %}
   <p>hi, {{ rc_profile.first_name }}!</p>
 
-  <hr>
-  <h3>your sound preference</h3>
-  <p>when scanning your door tag, what sound do you want the octopus to play?</p>
-  <select>
-    <option>no sound</option>
-    <option>one sound (choose below)</option>
-    <option>random community sound</option>
-  </select>
-  <button type='submit'>save</button>
+  <p>
+      your sound preferences are set to <b>{{ request.user.get_sound_preference_display }}</b>{% spaceless %}
+      {% if request.user.sound_preference == 'single_sound' %}
+        &nbsp;({{ request.user.single_sound_preference }}).
+      {% else %}
+        .
+      {% endif %}
+    {% endspaceless %}
 
-  <hr>
-  <h3>all community sounds</h3>
-  {% for sound in all_community_sounds %}
-    <li>
-      <a href="{{ sound.file.url }}" target="_blank">{{ sound.name }}</a>
-    </li>
-  {% endfor %}
+    <a href="{% url 'sound_preferences' %}">change them here</a>.
+  </p>
 
-  <hr>
-  <h3>TODO add a community sound</h3>
-  <p>upload a sound file - recommended: .mp3 that's <1mb ish</p>
-  <form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="file">
-    <button type="submit">upload</button>
-  </form>
+  <p>click here to <a href="{% url 'all_community_sounds' %}">view all community sounds</a>.</p>
 
-  <hr>
-  <h3>TODO delete a community sound</h3>
-  <p>don't be a bad person. you'll get a chance to confirm.</p>
-  <form action="" method="post">
-    {% csrf_token %}
-    <select name="sound">
-      {% for sound in all_community_sounds %}
-        <option value="{{ sound.id }}">{{ sound.name }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit">delete</button>
+  <p>want to <a href="{% url 'add_community_sound' %}">add a community sound</a>?</p>
 
+  <p>want to <a href="{% url 'delete_community_sound' %}">delete a community sound</a>?</p>
+
+  <hr style='margin-top:60px;'>
+
+  <div style='font-size:0.9em; color: #111'>"Checkintopus" by Itay Shoshani and Greg Sadetsky. source code <a href="https://github.com/gregsadetsky/recurse-rfid-visits">here</a> and <a href="https://github.com/gregsadetsky/checkintopus">here</a>.</div>
 {% endblock content %}

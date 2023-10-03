@@ -2,6 +2,7 @@ import json
 
 from authlib.integrations.django_client import OAuth, OAuthError
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -19,19 +20,28 @@ rc_oauth = OAuth().register(
 )
 
 
+# decorator -- require oauth authentication
+def oauth_required(func):
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return rc_oauth.authorize_redirect(request, settings.RC_OAUTH_REDIRECT_URI)
+
+        try:
+            # check that token is valid by making an api request
+            _ = get_profile(request.user.access_token)
+        except UnauthorizedError:
+            request.user.delete()
+            logout(request)
+            return redirect("index")
+
+        return func(request, *args, **kwargs)
+
+    return wrapper
+
+
+@oauth_required
 def index(request):
-    # check if user is not anonymous
-    if not request.user.is_authenticated:
-        return rc_oauth.authorize_redirect(request, settings.RC_OAUTH_REDIRECT_URI)
-
-    try:
-        rc_profile = get_profile(request.user.access_token)
-    except UnauthorizedError:
-        request.user.delete()
-        logout(request)
-        return redirect("index")
-
-    all_community_sounds = Sound.objects.filter().order_by("name")
+    all_community_sounds = Sound.objects.all()
 
     return render(
         request,
@@ -70,3 +80,63 @@ def oauth_redirect(request):
 
     # redirect back to the home
     return redirect("index")
+
+
+@oauth_required
+def all_community_sounds(request):
+    all_community_sounds = Sound.objects.all()
+    return render(
+        request,
+        "core/all_community_sounds.html",
+        {"all_community_sounds": all_community_sounds},
+    )
+
+
+@oauth_required
+def sound_preferences(request):
+    if request.method == "POST":
+        # load values from submitted forms
+        # <select name='sound-preference'> and
+        # <select name='single-sound-preference'>
+        sound_preference = request.POST.get("sound-preference")
+        single_sound_preference = request.POST.get("single-sound-preference")
+
+        request.user.sound_preference = sound_preference
+
+        if sound_preference == "single_sound":
+            request.user.single_sound_preference = Sound.objects.get(
+                id=single_sound_preference
+            )
+        else:
+            request.user.single_sound_preference = None
+        request.user.save()
+
+        messages.success(request, "saved!")
+
+        # redirect to avoid back-reload-resubmit issues
+        return redirect("sound_preferences")
+
+    all_community_sounds = Sound.objects.all()
+    return render(
+        request,
+        "core/sound_preferences.html",
+        {"all_community_sounds": all_community_sounds},
+    )
+
+
+@oauth_required
+def add_community_sound(request):
+    return render(request, "core/add_community_sound.html")
+
+
+@oauth_required
+def delete_community_sound(request):
+    if not request.user.is_authenticated:
+        return rc_oauth.authorize_redirect(request, settings.RC_OAUTH_REDIRECT_URI)
+
+    all_community_sounds = Sound.objects.all()
+    return render(
+        request,
+        "core/delete_community_sound.html",
+        {"all_community_sounds": all_community_sounds},
+    )

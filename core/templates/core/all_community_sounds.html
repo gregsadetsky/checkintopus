@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <h3>all community sounds</h3>
+  {% for sound in all_community_sounds %}
+    <li>
+      <a href="{{ sound.file.url }}" target="_blank">{{ sound.filename }}</a>
+    </li>
+  {% endfor %}
+
+  <p><a href="/">go back home</a></p>
+{% endblock content %}

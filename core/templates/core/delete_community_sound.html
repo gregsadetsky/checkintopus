@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+  <h3>delete a community sound</h3>
+  <p>don't be a bad person. you'll get a chance to confirm before the file is deleted.</p>
+  
+  <form action="" method="post">
+    {% csrf_token %}
+    <select name="sound">
+      {% for sound in all_community_sounds %}
+        <option value="{{ sound.id }}">{{ sound.filename }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">delete</button>
+
+  <p><a href="/">go back home</a></p>
+  
+{% endblock content %}

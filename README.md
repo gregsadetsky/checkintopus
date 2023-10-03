@@ -6,8 +6,9 @@ this is the software/web/UI/oauth-y counterpart of the octopus sign in project. 
 
 ### TODO
 
+- django prod log on error should include whole traceback
+- when preferences is set to play single sound, include sound name in index page
 - list of community sounds (when picking one) - have button to play sound (do it in JS/howler? -- need to get signed url from server first)
-- remove 'name' field from community sound -- just use filename
 - when selecting 'one sound' show list of community sounds. when selecting 'no sound' or 'random', hide list of community sounds.
 - separate bare html pages -> move them to separate templates, link to them from homepage
 - document using create_oauth_superuser instead of regular manage.py createsuperuser

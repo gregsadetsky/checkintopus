@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <h3>your sound preferences</h3>
+  <p>when scanning your door tag, what sound do you want the octopus to play?</p>
+
+  <form method='post'>
+    {% csrf_token %}
+    <div>
+      <select id='js-sound-preference' name='sound-preference'>
+        {% for value, text in request.user.SOUND_PREFERENCE_CHOICES %}
+          {% if value == request.user.sound_preference %}
+            <option value="{{ value }}" selected>{{ text }}</option>
+          {% else %}
+            <option value="{{ value }}">{{ text }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+    <div id='js-all-sounds' style='display:none'>
+      <select name='single-sound-preference'>
+      {% for sound in all_community_sounds %}
+        {% if sound.id == request.user.single_sound_preference.id %}
+          <option value="{{ sound.id }}" selected>{{ sound }}</option>
+        {% else %}
+          <option value="{{ sound.id }}">{{ sound }}</option>
+        {% endif %}
+      {% endfor %}
+      </select>
+    </div>
+
+    <div><button type='submit'>save</button></div>
+  </form>
+
+  <p><a href="/">go back home</a></p>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const soundPreferenceSelectEl = document.getElementById('js-sound-preference')
+      if (soundPreferenceSelectEl.value == 'single_sound') {
+        document.getElementById('js-all-sounds').style.display = 'block';
+      }
+
+      soundPreferenceSelectEl.addEventListener('change', function(e) {
+        if (e.target.value == 'single_sound') {
+          document.getElementById('js-all-sounds').style.display = 'block';
+        } else {
+          document.getElementById('js-all-sounds').style.display = 'none';
+        }
+      });
+    
+    });
+  </script>
+{% endblock content %}

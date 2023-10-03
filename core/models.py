@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -44,8 +46,14 @@ class RFIDTagScanLog(models.Model):
 
 
 class Sound(models.Model):
-    name = models.CharField(max_length=255)
     file = models.FileField(upload_to="community_sounds/")
 
+    class Meta:
+        ordering = ["file"]
+
+    @property
+    def filename(self):
+        return os.path.basename(self.file.name)
+
     def __str__(self):
-        return self.name
+        return self.filename

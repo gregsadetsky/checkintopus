@@ -23,6 +23,11 @@
           margin: 15 auto;
           margin-top: 70px;
       }
+
+      .message-success {
+          padding: 5px;
+          background: #dff0d8;
+      }
   </style>
 </head>
 <body>
@@ -30,11 +35,9 @@
 <h2>Checkintopus</h2>
 
 {% if messages %}
-  <ul class="messages" style="background:#eee">
-      {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-  </ul>
+    {% for message in messages %}
+      <div class="message-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
 {% endif %}
 
 {% block content %}
