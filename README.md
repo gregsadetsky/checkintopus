@@ -2,17 +2,18 @@
 
 ### what
 
-this is the software/web/oauth-y counterpart of the octopus sign in project. the hardware repo is [here](https://github.com/gregsadetsky/recurse-rfid-visits/).
+this is the software/web/UI/oauth-y counterpart of the octopus sign in project. the hardware repo is [here](https://github.com/gregsadetsky/recurse-rfid-visits/).
 
 ### TODO
 
-- create superuser on prod
-  - test upload of community file
-- create signed bucket download urls that expire in 1h to send back to raspi
-  - working, test again on prod
-- enable s3 bucket versioning to not lose any files if a mistake happens
+- list of community sounds (when picking one) - have button to play sound (do it in JS/howler? -- need to get signed url from server first)
+- remove 'name' field from community sound -- just use filename
+- when selecting 'one sound' show list of community sounds. when selecting 'no sound' or 'random', hide list of community sounds.
+- separate bare html pages -> move them to separate templates, link to them from homepage
+- document using create_oauth_superuser instead of regular manage.py createsuperuser
 - allow user uploads
 - allow deleting audio files
+  - check that bucket versioning works
 - rename this project/repo/deployment/render domain/oauth dev&prod apps based on the [poll in zulip](https://recurse.zulipchat.com/#narrow/stream/19042-.F0.9F.A7.91.E2.80.8D.F0.9F.92.BB-current-batches/topic/naming.20suggestion/near/394473437)
   - probs just redeploy on render after name change here to simplify things
   - rename local db too

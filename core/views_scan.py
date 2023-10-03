@@ -62,6 +62,10 @@ def scan(request):
         sound_urls = res["sound_urls"]
         random_color_fruit_string = res["random_color_fruit_string"]
 
+        # assign a random color+fruit name to the card that was just scanned
+        # we 'send back' the name of this color+fruit in audio format, which the user will hear;
+        # then, they can go to the onboarding web ui to setup their account and associate
+        # the card (which they just scanned) with their account
         rfid_tag_scan_log_object.unknown_card_random_name = random_color_fruit_string
         rfid_tag_scan_log_object.save()
 
