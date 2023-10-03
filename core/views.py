@@ -42,6 +42,7 @@ def oauth_required(func):
 @oauth_required
 def index(request):
     all_community_sounds = Sound.objects.all()
+    rc_profile = get_profile(request.user.access_token)
 
     return render(
         request,
@@ -126,13 +127,33 @@ def sound_preferences(request):
 
 @oauth_required
 def add_community_sound(request):
+    if request.method == "POST":
+        # get file from <input name="file"/>
+        file = request.FILES["file"]
+        # create new sound object
+        Sound.objects.create(
+            file=file,
+        )
+        # redirect to avoid back-reload-resubmit issues
+
+        messages.success(request, "sound added!")
+
+        return redirect("add_community_sound")
+
     return render(request, "core/add_community_sound.html")
 
 
 @oauth_required
 def delete_community_sound(request):
-    if not request.user.is_authenticated:
-        return rc_oauth.authorize_redirect(request, settings.RC_OAUTH_REDIRECT_URI)
+    if request.method == "POST":
+        sound_id = request.POST.get("sound")
+        # create new sound object
+        Sound.objects.get(id=sound_id).delete()
+        # redirect to avoid back-reload-resubmit issues
+
+        messages.success(request, "sound deleted!")
+
+        return redirect("delete_community_sound")
 
     all_community_sounds = Sound.objects.all()
     return render(
