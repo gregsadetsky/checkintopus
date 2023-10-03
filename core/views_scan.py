@@ -7,8 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from .models import RFIDTagScanLog
-from .utils_onboarding import generate_onboarding_sound_urls_for_card
-from .utils_sign_in import sign_in_user_to_the_hub
+from .utils_onboarding_sound_urls import generate_onboarding_sound_urls_for_card
+from .utils_rc_api import create_hub_visit_for_today
 from .utils_user_sound import get_sound_url_for_user
 from .utils_uuid import check_that_string_is_uuid
 
@@ -54,12 +54,7 @@ def scan(request):
     if found_user:
         # we'll get back one sound, so make it a list of 1
         sound_urls = [get_sound_url_for_user(found_user)]
-        # TODO implement/do
-        # TODO implement/do
-        # TODO implement/do
-        # TODO implement/do
-        # TODO implement/do
-        sign_in_user_to_the_hub(found_user)
+        create_hub_visit_for_today(found_user.access_token, found_user.rc_user_id)
     else:
         # onboarding will return multiple urls - onboarding message + color + fruit
         res = generate_onboarding_sound_urls_for_card(fc, card)

@@ -6,8 +6,6 @@ this is the software/web/oauth-y counterpart of the octopus sign in project. the
 
 ### TODO
 
-- actually return sound urls when onboarding
-- record and upload mp3s of sound/fruit to onboarding subdir of s3 bucket
 - implement sign_in_user_to_the_hub
 - when deleting sound, check that no user have set it as their solo sound -- ask for confirmation, if ok then delete file and set file preference to random community sound
 - add django-storages, setup for s3
@@ -42,6 +40,7 @@ this is the software/web/oauth-y counterpart of the octopus sign in project. the
 - render:
   - enable database backups
   - connect papertrail
+- re-record all sounds
 
 ### huh
 
