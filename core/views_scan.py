@@ -17,6 +17,7 @@ from .utils_uuid import check_that_string_is_uuid
 @csrf_exempt
 def scan(request):
     API_KEY = request.headers["x-api-key"]
+    print("scan API_KEY", API_KEY)
 
     # sanity checks
     assert len(API_KEY) == len(settings.RASPI_SCAN_UUID_API_KEY) == 36
