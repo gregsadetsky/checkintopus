@@ -6,30 +6,36 @@ this is the software/web/UI/oauth-y counterpart of the octopus sign in project. 
 
 ### TODO
 
-- django prod log on error should include whole traceback
-- when preferences is set to play single sound, include sound name in index page
-- list of community sounds (when picking one) - have button to play sound (do it in JS/howler? -- need to get signed url from server first)
-- when selecting 'one sound' show list of community sounds. when selecting 'no sound' or 'random', hide list of community sounds.
-- separate bare html pages -> move them to separate templates, link to them from homepage
-- document using create_oauth_superuser instead of regular manage.py createsuperuser
-- allow user uploads
-- allow deleting audio files
-  - check that bucket versioning works
-- rename this project/repo/deployment/render domain/oauth dev&prod apps based on the [poll in zulip](https://recurse.zulipchat.com/#narrow/stream/19042-.F0.9F.A7.91.E2.80.8D.F0.9F.92.BB-current-batches/topic/naming.20suggestion/near/394473437)
-  - probs just redeploy on render after name change here to simplify things
-  - rename local db too
+- re-record all sounds
 - rename .recurse.com subdomains once project name has been decided
 - render:
   - enable database backups
   - connect papertrail
-- re-record all sounds
-- when deleting a community sound, check that no user have set it as their solo sound -- ask for confirmation, if ok then delete file and set file preference to random community sound
 - auth token vs refresh token - what is it
+- rename this project/repo/deployment/render domain/oauth dev&prod apps based on the [poll in zulip](https://recurse.zulipchat.com/#narrow/stream/19042-.F0.9F.A7.91.E2.80.8D.F0.9F.92.BB-current-batches/topic/naming.20suggestion/near/394473437)
+  - probs just redeploy on render after name change here to simplify things
+  - rename local db too
 
 ### hosting details
 
 - the main server is deployed / hosted on render.com (ask greg for access)
 - audio files are hosted on aws s3 (ditto -- ask greg)
+
+### how to dev
+
+- assuming a 'normal' python/venv setup i.e.:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+- create a local superuser using our own `python manage.py create_oauth_superuser <email> <username> <password>`
+  - this is necessary instead of the usual `python manage.py createsuperuser` because our `User` model includes oauth & rfid card infos that "regular" django superusers wouldn't have by default...!
+- check [HOWTODEV.md](./docs/HOWTODEV.md) for more specific oauth/domain setup details
 
 ### huh
 

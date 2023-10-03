@@ -147,10 +147,25 @@ def add_community_sound(request):
 def delete_community_sound(request):
     if request.method == "POST":
         sound_id = request.POST.get("sound")
-        # create new sound object
-        Sound.objects.get(id=sound_id).delete()
-        # redirect to avoid back-reload-resubmit issues
 
+        sound_obj = Sound.objects.get(id=sound_id)
+
+        # find all users that have a 'sound_preference' of 'single_sound' and this sound set as 'single_sound_preference'
+        # and set their single_sound_preference to none and their preference to 'random_community_sound'
+        users_with_single_sound_preference = User.objects.filter(
+            sound_preference="single_sound",
+            single_sound_preference=sound_obj,
+        )
+        for user in users_with_single_sound_preference:
+            user.sound_preference = "random_community_sound"
+            user.single_sound_preference = None
+            user.save()
+
+        # delete file
+        sound_obj.file.delete()
+        sound_obj.delete()
+
+        # redirect to avoid back-reload-resubmit issues
         messages.success(request, "sound deleted!")
 
         return redirect("delete_community_sound")

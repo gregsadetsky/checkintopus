@@ -22,12 +22,13 @@
       <select name='single-sound-preference'>
       {% for sound in all_community_sounds %}
         {% if sound.id == request.user.single_sound_preference.id %}
-          <option value="{{ sound.id }}" selected>{{ sound }}</option>
+          <option value="{{ sound.id }}" data-url="{{ sound.file.url }}" selected>{{ sound }}</option>
         {% else %}
-          <option value="{{ sound.id }}">{{ sound }}</option>
+          <option value="{{ sound.id }}" data-url="{{ sound.file.url }}">{{ sound }}</option>
         {% endif %}
       {% endfor %}
       </select>
+      <button type='button' id='js-play-sound'>play</button>
     </div>
 
     <div><button type='submit'>save</button></div>
@@ -37,6 +38,8 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
+      const audioObj = new Audio();     
+
       const soundPreferenceSelectEl = document.getElementById('js-sound-preference')
       if (soundPreferenceSelectEl.value == 'single_sound') {
         document.getElementById('js-all-sounds').style.display = 'block';
@@ -50,6 +53,22 @@
         }
       });
     
+      document.getElementById('js-play-sound').addEventListener('click', function(e) {
+        const chosenSoundSelectEl = document.querySelector('select[name="single-sound-preference"]');
+        // url value in data-url attribute
+        const soundUrl = chosenSoundSelectEl.options[chosenSoundSelectEl.selectedIndex].dataset.url;
+
+        // if audio is playing, stop it
+        if (!audioObj.paused) {
+          audioObj.pause();
+          audioObj.currentTime = 0;
+        }
+
+        // load new url and play
+        audioObj.src = soundUrl;
+        audioObj.play();
+      });
+
     });
   </script>
 {% endblock content %}
