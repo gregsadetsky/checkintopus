@@ -28,10 +28,30 @@ def oauth_required(func):
 
         try:
             # check that token is valid by making an api request
-            _ = get_profile(request.user.access_token)
+            rc_profile = get_profile(request.user.access_token)
         except UnauthorizedError:
             request.user.delete()
             logout(request)
+            return redirect("index")
+
+        # inject rc_profile into the kwargs
+        # any wrapped function (right now, just the index view) will get it for free
+        # i.e. won't need to do the api call itself (slowing the server's response)
+        kwargs["rc_profile"] = rc_profile
+        return func(request, *args, **kwargs)
+
+    return wrapper
+
+
+# simpler wrapper that makes sure that user is logged in
+# this doesn't check that the access token is still valid;
+# you'd use it for views that presumably don't take actions
+# on the user's behalf that would require a token
+# (those actions will fail if the token is invalid regardless of
+# whether we check it here)
+def authentication_required(func):
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
             return redirect("index")
 
         return func(request, *args, **kwargs)
@@ -40,9 +60,8 @@ def oauth_required(func):
 
 
 @oauth_required
-def index(request):
+def index(request, rc_profile):
     all_community_sounds = Sound.objects.all()
-    rc_profile = get_profile(request.user.access_token)
 
     return render(
         request,
@@ -83,7 +102,7 @@ def oauth_redirect(request):
     return redirect("index")
 
 
-@oauth_required
+@authentication_required
 def all_community_sounds(request):
     all_community_sounds = Sound.objects.all()
     return render(
@@ -93,7 +112,7 @@ def all_community_sounds(request):
     )
 
 
-@oauth_required
+@authentication_required
 def sound_preferences(request):
     if request.method == "POST":
         # load values from submitted forms
@@ -125,7 +144,7 @@ def sound_preferences(request):
     )
 
 
-@oauth_required
+@authentication_required
 def add_community_sound(request):
     if request.method == "POST":
         # get file from <input name="file"/>
@@ -143,7 +162,7 @@ def add_community_sound(request):
     return render(request, "core/add_community_sound.html")
 
 
-@oauth_required
+@authentication_required
 def delete_community_sound(request):
     if request.method == "POST":
         sound_id = request.POST.get("sound")

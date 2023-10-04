@@ -6,12 +6,12 @@
 - add the ngrok address to your .env var i.e. `ALLOWED_HOSTS='localhost,SOME-SUBDOMAIN.ngrok-free.app'`
 - update the recurse cname domain proxy to point to ngrok
   - go [here](https://www.recurse.com/domains)
-  - set the destination of `checkintopus-dev.recurse.com` to your ngrok https url
+  - set the destination of `checkintopus-dev.recurse.com` to your ngrok https url i.e. `https://SOME-SUBDOMAIN.ngrok-free.app`
   - note that if there are multiple developers doing this, you might need to create new checkintopus-dev-greg, checkintopus-greg-jane, etc. subdomains
-- go to the [recurse oauth apps](https://www.recurse.com/settings/apps)
-  - delete any existing -dev oauth apps
-  - create a dev oauth app; the redirect uri value will be: `https://checkintopus-dev.recurse.com/oauth_redirect` i.e. ngrok domain + `/oauth_redirect`
-- copy the oauth id, secret, and redirect_uri into the .env file
+- go to the [recurse oauth apps](https://www.recurse.com/settings/apps). if the oauth app doesn't exist yet, create it:
+  - the redirect uri value should be: `https://checkintopus-dev.recurse.com/oauth_redirect`
+  - copy the oauth id, secret, and redirect_uri into the .env file
+- you might need to restart the `python manage.py runserver` to make sure that new .env values have been picked up
 - you're ready to test it now!
 - go to https://checkintopus-dev.recurse.com/
   - are you redirected to recurse to login?
