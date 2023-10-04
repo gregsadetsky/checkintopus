@@ -15,12 +15,14 @@
     <a href="{% url 'sound_preferences' %}">change them here</a>.
   </p>
 
-  <p>click here to <a href="{% url 'all_community_sounds' %}">view all community sounds</a>.</p>
+  <p>do you want to...</p>
 
-  <p>want to <a href="{% url 'add_community_sound' %}">add a community sound</a>?</p>
+  <ul>  
+    <li><a href="{% url 'all_community_sounds' %}">view all community sounds</a>?</li>
+    <li><a href="{% url 'add_community_sound' %}">add a community sound</a>?</li>
+    <li><a href="{% url 'delete_community_sound' %}">delete a community sound</a>?</li>
+  </ul>
 
-  <p>want to <a href="{% url 'delete_community_sound' %}">delete a community sound</a>?</p>
-
-  <hr style='margin-top:60px;'>
+  <hr style='margin-top:40px;'>
   <div style='font-size:0.9em; color: #111'>"octopass" by itay shoshani and greg sadetsky. source code <a href="https://github.com/gregsadetsky/recurse-rfid-visits">here</a> and <a href="https://github.com/gregsadetsky/checkintopus">here</a>.</div>
 {% endblock content %}
