@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-  <p>hi, {{ rc_profile.first_name }}!</p>
+  <p>hi, {{ rc_profile.first_name|lower }}!</p>
 
   <p>
       your sound preferences are set to <b>{{ request.user.get_sound_preference_display }}</b>{% spaceless %}
@@ -22,6 +22,5 @@
   <p>want to <a href="{% url 'delete_community_sound' %}">delete a community sound</a>?</p>
 
   <hr style='margin-top:60px;'>
-
-  <div style='font-size:0.9em; color: #111'>"Checkintopus" by Itay Shoshani and Greg Sadetsky. source code <a href="https://github.com/gregsadetsky/recurse-rfid-visits">here</a> and <a href="https://github.com/gregsadetsky/checkintopus">here</a>.</div>
+  <div style='font-size:0.9em; color: #111'>"octopass" by itay shoshani and greg sadetsky. source code <a href="https://github.com/gregsadetsky/recurse-rfid-visits">here</a> and <a href="https://github.com/gregsadetsky/checkintopus">here</a>.</div>
 {% endblock content %}

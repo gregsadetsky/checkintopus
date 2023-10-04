@@ -1,4 +1,4 @@
-## checkintopus
+## octopass
 
 ### what
 
@@ -7,7 +7,8 @@ this is the software/web/UI/oauth-y counterpart of the octopus sign in project. 
 ### TODO
 
 - re-record all sounds - onboarding, fruits and colors
-- rename .recurse.com subdomains once project name has been decided
+- rename it to octopass subdomain, name in web project
+- physical install
 - render:
   - connect papertrail
 - auth token vs refresh token - what is it
