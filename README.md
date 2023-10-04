@@ -2,7 +2,9 @@
 
 ### what
 
-this is the software/web/UI/oauth-y counterpart of the octopus sign in project. the hardware repo is [here](https://github.com/gregsadetsky/recurse-rfid-visits/).
+this is Octopass, a hardware & software project that lets people attending the Recurse Center to sign in using their door fob.
+
+this is the software/web/UI/oauth-y counterpart of the project. the hardware code repo is [here](https://github.com/gregsadetsky/recurse-rfid-visits/).
 
 ### TODO
 
