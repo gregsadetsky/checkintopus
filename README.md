@@ -38,5 +38,5 @@ python manage.py runserver
 
 ### huh
 
-- [powered by minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
+- powered by [minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
 - this project was done during my time at the [Recurse Center](https://recurse.com/)
