@@ -6,13 +6,10 @@ this is the software/web/UI/oauth-y counterpart of the octopus sign in project. 
 
 ### TODO
 
-- re-record all sounds - onboarding, fruits and colors
-- rename it to octopass subdomain, name in web project
-- physical install
 - render:
   - connect papertrail
 - auth token vs refresh token - what is it
-- rename this project/repo/deployment/render domain/oauth dev&prod apps based on the [poll in zulip](https://recurse.zulipchat.com/#narrow/stream/19042-.F0.9F.A7.91.E2.80.8D.F0.9F.92.BB-current-batches/topic/naming.20suggestion/near/394473437)
+- rename this project/repo/deployment/render domain/oauth dev&prod apps to octopass
   - probs just redeploy on render after name change here to simplify things
 
 ### hosting details
@@ -35,7 +32,7 @@ python manage.py runserver
 - copy `.env.example` to `.env` and fill out the appropriate values
 - create a local superuser using our own `python manage.py create_oauth_superuser <email> <username> <password>`
   - this is necessary instead of the usual `python manage.py createsuperuser` because our `User` model includes oauth & rfid card infos that "regular" django superusers wouldn't have by default...!
-- check [HOWTODEV.md](./docs/HOWTODEV.md) for more specific oauth/domain setup details
+- check [HOWTODEV.md](./docs/HOWTODEV.md) for more specific oauth/domain setup details!!
 
 ### huh
 
