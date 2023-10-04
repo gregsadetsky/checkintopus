@@ -12,8 +12,8 @@ class User(AbstractUser):
     refresh_token = models.CharField(max_length=200)
     expires_at = models.PositiveIntegerField()
 
-    rfid_tag_fc = models.CharField(max_length=100, blank=True, null=True)
-    rfid_tag_card = models.CharField(max_length=100, blank=True, null=True)
+    rfid_tag_fc = models.CharField(max_length=100, blank=True)
+    rfid_tag_card = models.CharField(max_length=100, blank=True)
 
     SOUND_PREFERENCE_CHOICES = [
         ("no_sound", "no sound"),
@@ -32,6 +32,9 @@ class User(AbstractUser):
         null=True,
     )
 
+    def has_user_card_been_onboarded(self):
+        return self.rfid_tag_fc and self.rfid_tag_card
+
 
 class RFIDTagScanLog(models.Model):
     scan_time = models.DateTimeField(auto_now_add=True)
@@ -43,6 +46,9 @@ class RFIDTagScanLog(models.Model):
     # to the user in the audio message.
     # during onboarding, the user can find the random name they were told in the list of 'unclaimed' cards.
     unknown_card_random_name = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        ordering = ["-scan_time"]
 
 
 class Sound(models.Model):

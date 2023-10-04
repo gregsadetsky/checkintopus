@@ -5,5 +5,15 @@ from .models import RFIDTagScanLog, Sound, User
 
 admin.site.register(User, UserAdmin)
 
-admin.site.register(RFIDTagScanLog)
+
+class RFIDTagScanLogAdmin(admin.ModelAdmin):
+    list_display = (
+        "scan_time",
+        "rfid_tag_fc",
+        "rfid_tag_card",
+        "unknown_card_random_name",
+    )
+
+
+admin.site.register(RFIDTagScanLog, RFIDTagScanLogAdmin)
 admin.site.register(Sound)

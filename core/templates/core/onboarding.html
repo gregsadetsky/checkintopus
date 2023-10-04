@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <h3>onboarding</h3>
+
+  <p>below are the door tags that have been scanned in the last 5 minutes.</p>
+
+  <p>if you don't see your tag, scan it again, then refresh this page.</p>
+
+  <hr>
+
+  <form method='post' action='{% url "onboarding_confirm_card" %}'>
+    {% csrf_token %}
+    
+    {% for recent_unknown_card_scan in recent_unknown_card_scans %}
+      <p>card name: <b>{{recent_unknown_card_scan.unknown_card_random_name}}</b> (card #{{ recent_unknown_card_scan.rfid_tag_card }})</p>
+
+      <p>is this your card name? <button type='submit' name='rfid_card_scan_id' value='{{ recent_unknown_card_scan.id }}'>yes</button></p>
+    {% empty %}
+      <p><b>no recent unknown card scans - scan again and refresh please.</b></p>
+    {% endfor %}
+  </form>
+
+  <hr>
+
+  <p><a href="/">go back home</a></p>
+{% endblock content %}
