@@ -31,6 +31,7 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+- copy `.env.example` to `.env` and fill out the appropriate values
 - create a local superuser using our own `python manage.py create_oauth_superuser <email> <username> <password>`
   - this is necessary instead of the usual `python manage.py createsuperuser` because our `User` model includes oauth & rfid card infos that "regular" django superusers wouldn't have by default...!
 - check [HOWTODEV.md](./docs/HOWTODEV.md) for more specific oauth/domain setup details
