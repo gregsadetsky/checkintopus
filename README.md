@@ -8,6 +8,8 @@ this is the software/web/UI/oauth-y counterpart of the project. the hardware cod
 
 ### TODO
 
+- better index page copy - "when scanning your door tag, octopass will play (a) no sound/random community sound/single sound"
+- change 'view all community sounds' to 'see all community sounds'
 - get access to rc heroku to deploy octopass there?
 - give rc admins admin access based on rc profile json? if info is there?
   - check email and company fields in rc_profile

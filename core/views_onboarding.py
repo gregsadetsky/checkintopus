@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from .models import RFIDTagScanLog
+from .utils_rc_api import create_hub_visit_for_today
 from .views_utils import oauth_required
 
 
@@ -33,6 +34,9 @@ def onboarding_confirm_card(request):
     request.user.rfid_tag_fc = found_rfid_card_scan_obj.rfid_tag_fc
     request.user.rfid_tag_card = found_rfid_card_scan_obj.rfid_tag_card
     request.user.save()
+
+    # sign the user in!!!!!!!!!!!!!!!!!!!!!!!1
+    create_hub_visit_for_today(request.user.access_token, request.user.rc_user_id)
 
     # done!! redirect to homepage
     return redirect("index")
