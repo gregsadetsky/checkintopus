@@ -8,6 +8,13 @@ this is the software/web/UI/oauth-y counterpart of the project. the hardware cod
 
 ### TODO
 
+- get access to rc heroku to deploy octopass there?
+- give rc admins admin access based on rc profile json? if info is there?
+  - check email and company fields in rc_profile
+  - add superuser flag to existing users
+  - add superuser flag to new users onboarding that fit criteria
+  - add link to /admin from homepage for rc admins + instructions on deleting users
+  - in admin list of users, fetch names of all rc-users to show them? or that's too many rc profile calls? do api calls slowly...??
 - render:
   - connect papertrail
 - rename this project/repo/deployment/render domain/oauth dev&prod apps to octopass
