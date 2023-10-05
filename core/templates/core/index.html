@@ -4,24 +4,31 @@
   <p>hi, {{ rc_profile.first_name|lower }}!</p>
 
   <p>
-      your sound preferences are set to <b>{{ request.user.get_sound_preference_display }}</b>{% spaceless %}
+      after scanning your door tag, octopass will play
+      <b>{{ request.user.get_sound_preference_display }}</b>{% spaceless %}
       {% if request.user.sound_preference == 'single_sound' %}
         &nbsp;({{ request.user.single_sound_preference }}).
       {% else %}
         .
       {% endif %}
     {% endspaceless %}
-
-    <a href="{% url 'sound_preferences' %}">change them here</a>.
+    <a href="{% url 'sound_preferences' %}">want to change this</a>?
   </p>
 
-  <p>do you want to...</p>
+  <p style='margin-top:30px;'>do you want to...</p>
 
   <ul>  
     <li><a href="{% url 'all_community_sounds' %}">view all community sounds</a>?</li>
     <li><a href="{% url 'add_community_sound' %}">add a community sound</a>?</li>
     <li><a href="{% url 'delete_community_sound' %}">delete a community sound</a>?</li>
   </ul>
+
+  <!--
+  <p>advanced</p>
+  <ul>
+    <li>do you want to <a href="">unenroll from octopass</a>?</li>
+  </ul>
+  -->
 
   <hr style='margin-top:40px;'>
   <div style='font-size:0.9em; color: #111'>"octopass" by itay shoshani and greg sadetsky. source code <a href="https://github.com/gregsadetsky/recurse-rfid-visits">here</a> and <a href="https://github.com/gregsadetsky/checkintopus">here</a>.</div>

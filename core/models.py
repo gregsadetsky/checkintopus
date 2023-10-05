@@ -19,8 +19,8 @@ class User(AbstractUser):
 
     SOUND_PREFERENCE_CHOICES = [
         ("no_sound", "no sound"),
-        ("single_sound", "single sound"),
-        ("random_community_sound", "random community sound"),
+        ("single_sound", "a single sound"),
+        ("random_community_sound", "a random community sound"),
     ]
     sound_preference = models.CharField(
         max_length=100,

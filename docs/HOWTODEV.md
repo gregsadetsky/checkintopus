@@ -19,6 +19,7 @@
   - are you brought back once you do login?
   - are you able to deny the oauth login?
   - can you login in this app, go to your authorized oauth apps at the bottom of [this page](https://www.recurse.com/settings/apps), delete the authorization you gave to the dev oauth app, and reload the app?
+- to simulate a card scan (you can't use the real rfid reader -- it talks to the prod server!), call `python manage.py simulate_card_scan http://localhost:8000 <FC> <CARDID>` with some numbers for FC and CARDID (which would have normally been read by the rfid reader)
 
 ### notes
 
