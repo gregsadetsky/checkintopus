@@ -22,6 +22,23 @@ def get_rc_oauth():
     return rc_oauth
 
 
+def refresh_user_token_if_needed(user):
+    utc_timestamp = datetime.now().timestamp()
+
+    # has the oauth token expired?
+    if user.expires_at < utc_timestamp:
+        # refresh it
+        token = get_rc_oauth().fetch_access_token(
+            "https://www.recurse.com/oauth/token",
+            grant_type="refresh_token",
+            refresh_token=user.refresh_token,
+        )
+        user.access_token = token["access_token"]
+        user.refresh_token = token["refresh_token"]
+        user.expires_at = token["expires_at"]
+        user.save()
+
+
 # decorator -- require oauth authentication
 def oauth_required(func):
     def wrapper(request, *args, **kwargs):
@@ -30,20 +47,7 @@ def oauth_required(func):
                 request, settings.RC_OAUTH_REDIRECT_URI
             )
 
-        utc_timestamp = datetime.now().timestamp()
-
-        # has the oauth token expired?
-        if request.user.expires_at < utc_timestamp:
-            # refresh it
-            token = get_rc_oauth().fetch_access_token(
-                "https://www.recurse.com/oauth/token",
-                grant_type="refresh_token",
-                refresh_token=request.user.refresh_token,
-            )
-            request.user.access_token = token["access_token"]
-            request.user.refresh_token = token["refresh_token"]
-            request.user.expires_at = token["expires_at"]
-            request.user.save()
+        refresh_user_token_if_needed(request.user)
 
         try:
             # check that token is valid by making an api request
