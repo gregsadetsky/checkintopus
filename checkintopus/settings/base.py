@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core",
+    # https://github.com/skorokithakis/django-loginas
+    "loginas",
 ]
 
 MIDDLEWARE = [

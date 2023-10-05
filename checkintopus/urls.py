@@ -18,5 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("", include("core.urls")),
+    # https://github.com/skorokithakis/django-loginas
+    path("admin/", include("loginas.urls")),
     path("admin/", admin.site.urls),
 ]

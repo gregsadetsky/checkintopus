@@ -1,8 +1,11 @@
+from datetime import datetime
+
 from authlib.integrations.django_client import OAuth
 from django.conf import settings
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
+from .models import User
 from .utils_rc_api import UnauthorizedError, get_profile
 
 
@@ -26,6 +29,21 @@ def oauth_required(func):
             return get_rc_oauth().authorize_redirect(
                 request, settings.RC_OAUTH_REDIRECT_URI
             )
+
+        utc_timestamp = datetime.now().timestamp()
+
+        # has the oauth token expired?
+        if request.user.expires_at < utc_timestamp:
+            # refresh it
+            token = get_rc_oauth().fetch_access_token(
+                "https://www.recurse.com/oauth/token",
+                grant_type="refresh_token",
+                refresh_token=request.user.refresh_token,
+            )
+            request.user.access_token = token["access_token"]
+            request.user.refresh_token = token["refresh_token"]
+            request.user.expires_at = token["expires_at"]
+            request.user.save()
 
         try:
             # check that token is valid by making an api request

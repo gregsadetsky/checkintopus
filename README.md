@@ -10,7 +10,6 @@ this is the software/web/UI/oauth-y counterpart of the project. the hardware cod
 
 - render:
   - connect papertrail
-- auth token vs refresh token - what is it
 - rename this project/repo/deployment/render domain/oauth dev&prod apps to octopass
   - probs just redeploy on render after name change here to simplify things
 

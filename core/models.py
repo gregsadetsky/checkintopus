@@ -10,9 +10,11 @@ class User(AbstractUser):
     token_type = models.CharField(max_length=40)
     access_token = models.CharField(max_length=200)
     refresh_token = models.CharField(max_length=200)
+    # TODO should be renamed to access_token_expires_at to make it clearer!
     expires_at = models.PositiveIntegerField()
 
     rfid_tag_fc = models.CharField(max_length=100, blank=True)
+    # TODO rename to rfid_tag_card_id
     rfid_tag_card = models.CharField(max_length=100, blank=True)
 
     SOUND_PREFERENCE_CHOICES = [
@@ -40,6 +42,7 @@ class RFIDTagScanLog(models.Model):
     scan_time = models.DateTimeField(auto_now_add=True)
 
     rfid_tag_fc = models.CharField(max_length=100)
+    # TODO rename to rfid_tag_card_id
     rfid_tag_card = models.CharField(max_length=100)
 
     # when an unknown card is scanned, a random name is generated from it and sent back
