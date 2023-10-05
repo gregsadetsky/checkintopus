@@ -8,5 +8,5 @@ class Command(BaseCommand):
         # go through all User that have an access_token
         # and call refresh_user_token_if_needed on them
 
-        for user in User.objects.filter(access_token__isnull=False):
+        for user in User.objects.exclude(access_token__exact=""):
             refresh_user_token_if_needed(user)
