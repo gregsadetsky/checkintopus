@@ -47,4 +47,6 @@ python manage.py runserver
 ### huh
 
 - this web backend is powered by [minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
-- this project was done by [Itay Shoshani](https://github.com/itay-sho) and me during our time at the [Recurse Center](https://recurse.com/)
+- this project was made by <img src="https://eaafa.greg.technology/authors?Itay%20Shoshani,Greg%20Sadetsky" style="height:20px; width: 100px; vertical-align: middle" title="Itay Shoshani, Greg Sadetsky" />[^1]
+
+[^1]: [EAAFA](https://eaafa.greg.technology/)
