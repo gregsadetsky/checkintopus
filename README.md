@@ -30,6 +30,9 @@ python manage.py runserver
 
 ### TODO
 
+- add check if superuser with no token (i.e. admin user...) and don't error 500...
+- niceify admin by replacing 'django' title with octopass
+- Make sure that generated random color fruit is unique across last hour!
 - give rc admins admin access based on rc profile json? if info is there?
   - check email and company fields in rc_profile
   - add superuser flag to existing users
@@ -39,10 +42,13 @@ python manage.py runserver
 - add unenroll advanced option on index page - GET page to see what it entails, POST to do it; delete user object, logout, redirect to index
 - render:
   - connect papertrail
-- get access to rc heroku to deploy octopass there?
 - rename this project/repo/deployment/render domain/oauth dev&prod apps to octopass
   - probs just redeploy on render after name change here to simplify things
+  - https://github.com/gregsadetsky/recurse-rfid-visits/issues/13
+- Add way of saying what will be working on through mic on octopass -- speech recognition
+- fwup nick re hosting on RC heroku
 - better copy for 'view all community sounds'..?
+- fwup nick re ipad sign in repo? and make it websocket’y or poll more often?
 
 ### huh
 

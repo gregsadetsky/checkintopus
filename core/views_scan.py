@@ -54,7 +54,9 @@ def scan(request):
 
     if found_user:
         # we'll get back one sound, so make it a list of 1
-        sound_urls = [get_sound_url_for_user(found_user)]
+        found_sound = get_sound_url_for_user(found_user)
+        # found_sound will be None for users who opt for no sound!
+        sound_urls = [found_sound] if found_sound else []
 
         # important! possibly refresh token as access_token goes stale pretty fast
         refresh_user_token_if_needed(found_user)
