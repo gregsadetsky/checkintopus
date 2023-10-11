@@ -39,6 +39,7 @@ python manage.py runserver
   - add superuser flag to new users onboarding that fit criteria
   - add link to /admin from homepage for rc admins + instructions on deleting users
   - in admin list of users, fetch names of all rc-users to show them? or that's too many rc profile calls? do api calls slowly...??
+  - also, bless own admin accounts and delete 'admin' account on dev/prod; keep own create super user since need to have way in to auto-bless (edit note in readme above about superuser+blessing+deleting admin)
 - add unenroll advanced option on index page - GET page to see what it entails, POST to do it; delete user object, logout, redirect to index
 - render:
   - connect papertrail
@@ -53,4 +54,6 @@ python manage.py runserver
 ### huh
 
 - this web backend is powered by [minimalish django starter](https://github.com/gregsadetsky/minimalish-django-starter)
-- this project was done by [Itay Shoshani](https://github.com/itay-sho) and me during our time at the [Recurse Center](https://recurse.com/)
+- this project was made by <img src="https://eaafa.greg.technology/authors?Itay%20Shoshani,Greg%20Sadetsky" style="height:20px; width: 100px; vertical-align: middle" title="Itay Shoshani, Greg Sadetsky" />[^1]
+
+[^1]: [EAAFA](https://eaafa.greg.technology/)
