@@ -16,5 +16,6 @@ def get_latest_batch_name(rc_profile):
         sorted_stints = sorted(
             list(filtered_stints), reverse=True, key=lambda _: _.get("id", -1)
         )
-        return sorted_stints[0]["batch"]["name"]
+        if len(sorted_stints) > 0:
+            return sorted_stints[0]["batch"]["name"]
     return None
