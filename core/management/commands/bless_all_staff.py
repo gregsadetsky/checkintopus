@@ -12,6 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
         blessing_user_obj = User.objects.get(id=options["using-django-user-id"])
+
         refresh_user_token_if_needed(blessing_user_obj)
 
         # using single user passed above, go through all users,
@@ -21,9 +22,13 @@ class Command(BaseCommand):
             if user.is_superuser:
                 continue
 
-            profile = get_profile_of_rc_user_id(
-                blessing_user_obj.access_token, user.rc_user_id
-            )
+            try:
+                profile = get_profile_of_rc_user_id(
+                    blessing_user_obj.access_token, user.rc_user_id
+                )
+            except:
+                print("ERROR fetching profile for user", user)
+                continue
 
             if is_rc_profile_staff(profile):
                 user.is_staff = True

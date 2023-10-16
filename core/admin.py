@@ -30,13 +30,13 @@ class MyUserAdmin(UserAdmin):
             refresh_user_token_if_needed(user)
         except:
             print("ERROR refreshing token for user", user)
-            return "(error fetching info)"
+            return "*** error fetching info! ***"
 
         try:
             user_profile = get_profile(user.access_token)
         except:
             print("ERROR getting profile for user", user)
-            return "(error fetching info)"
+            return "*** error fetching info! ***"
 
         batch_name = get_latest_batch_name(user_profile)
         if batch_name:
