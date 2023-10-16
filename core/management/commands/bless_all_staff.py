@@ -1,9 +1,8 @@
 from core.utils_rc_api import get_profile_of_rc_user_id
+from core.utils_rc_profile import is_rc_profile_staff
 from core.views_utils import refresh_user_token_if_needed
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-
-from .utils_rc_profile import is_rc_profile_staff
 
 
 class Command(BaseCommand):
