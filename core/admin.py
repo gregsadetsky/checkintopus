@@ -24,9 +24,19 @@ class MyUserAdmin(UserAdmin):
         if not user.access_token:
             return ""
 
-        refresh_user_token_if_needed(user)
+        try:
+            # weird things can happen if the access token is not valid anymore
+            # but we still store it in the db
+            refresh_user_token_if_needed(user)
+        except:
+            print("ERROR refreshing token for user", user)
+            return "(error fetching info)"
 
-        user_profile = get_profile(user.access_token)
+        try:
+            user_profile = get_profile(user.access_token)
+        except:
+            print("ERROR getting profile for user", user)
+            return "(error fetching info)"
 
         batch_name = get_latest_batch_name(user_profile)
         if batch_name:
