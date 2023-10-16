@@ -3,6 +3,12 @@
 {% block content %}
   <p>hi, {{ rc_profile.first_name|lower }}!</p>
 
+  {% if user.is_superuser %}
+    <p style='background:#FFC;padding:8px'>
+      Hello Recurse Admin! Head over <a href="/admin/core/user/">here</a> to admin the users!
+    </p>
+  {% endif %}
+
   <p>
       after scanning your door tag, octopass will play
       <b>{{ request.user.get_sound_preference_display }}</b>{% spaceless %}

@@ -31,15 +31,7 @@ python manage.py runserver
 ### TODO
 
 - add check if superuser with no token (i.e. admin user...) and don't error 500...
-- niceify admin by replacing 'django' title with octopass
 - Make sure that generated random color fruit is unique across last hour!
-- give rc admins admin access based on rc profile json? if info is there?
-  - check email and company fields in rc_profile
-  - add superuser flag to existing users
-  - add superuser flag to new users onboarding that fit criteria
-  - add link to /admin from homepage for rc admins + instructions on deleting users
-  - in admin list of users, fetch names of all rc-users to show them? or that's too many rc profile calls? do api calls slowly...??
-  - also, bless own admin accounts and delete 'admin' account on dev/prod; keep own create super user since need to have way in to auto-bless (edit note in readme above about superuser+blessing+deleting admin)
 - add unenroll advanced option on index page - GET page to see what it entails, POST to do it; delete user object, logout, redirect to index
 - render:
   - connect papertrail

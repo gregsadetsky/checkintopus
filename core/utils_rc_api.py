@@ -60,3 +60,8 @@ def list_visits_for_user(token, user_id):
 
 def get_profile(token):
     return _query(token, "profiles/me")
+
+
+# use your own/any token to get info on other rc user id
+def get_profile_of_rc_user_id(token, rc_user_id):
+    return _query(token, f"profiles/{rc_user_id}")

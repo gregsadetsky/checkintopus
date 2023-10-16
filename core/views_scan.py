@@ -31,8 +31,8 @@ def scan(request):
     fc = str(body["fc"])
     card = str(body["card"])
 
-    assert fc and len(fc)
-    assert card and len(card)
+    assert fc and len(fc) > 0
+    assert card and len(card) > 0
 
     # log visit
     rfid_tag_scan_log_object = RFIDTagScanLog(

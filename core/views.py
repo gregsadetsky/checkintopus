@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 
 from .models import Sound, User
 from .utils_rc_api import get_profile
+from .utils_rc_profile import is_rc_profile_staff
 from .views_utils import get_rc_oauth, oauth_required
 
 
@@ -47,6 +48,12 @@ def oauth_redirect(request):
             "expires_at": token["expires_at"],
         },
     )
+
+    # on sign up of recurse admin, bless them
+    if is_rc_profile_staff(profile):
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
 
     login(request, user)
 
