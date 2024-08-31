@@ -65,3 +65,11 @@ def get_profile(token):
 # use your own/any token to get info on other rc user id
 def get_profile_of_rc_user_id(token, rc_user_id):
     return _query(token, f"profiles/{rc_user_id}")
+
+
+def get_batches(token):
+    return _query(token, "batches")
+
+
+def get_profiles_by_batch_id(token, batch_id):
+    return _query(token, f"profiles?batch_id={batch_id}")

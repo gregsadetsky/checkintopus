@@ -16,9 +16,9 @@ class Command(BaseCommand):
         refresh_user_token_if_needed(blessing_user_obj)
 
         # using single user passed above, go through all users,
-        # if not already superuser, get profile, check employment,
-        # if recurse, mark as superuser
+        # if not already superuser, get profile, check if recurse staff, mark as superuser
         for user in User.objects.all():
+            # skip existing users i.e. don't un-bless
             if user.is_superuser:
                 continue
 

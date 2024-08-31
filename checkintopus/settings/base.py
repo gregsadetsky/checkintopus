@@ -12,7 +12,6 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -160,3 +159,6 @@ STORAGES = {
 # start from default values -- so that they can be overriden later
 # https://stackoverflow.com/a/25508761
 LOGGING = DEFAULT_LOGGING
+
+# to not be redirected to /accounts/profile after logging out of the admin
+LOGIN_REDIRECT_URL = "/"

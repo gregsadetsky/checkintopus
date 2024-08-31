@@ -11,7 +11,7 @@ class User(AbstractUser):
     access_token = models.CharField(max_length=200)
     refresh_token = models.CharField(max_length=200)
     # TODO should be renamed to access_token_expires_at to make it clearer!
-    expires_at = models.PositiveIntegerField()
+    expires_at = models.PositiveIntegerField(null=True)
 
     rfid_tag_fc = models.CharField(max_length=100, blank=True)
     # TODO rename to rfid_tag_card_id

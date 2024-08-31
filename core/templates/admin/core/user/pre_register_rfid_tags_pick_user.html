@@ -1,0 +1,19 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<h1>Pre-register RFID tags to users!</h1>
+
+<form method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+    <b>First</b>, pick the person: <select name="rc_user_id">
+    {% for profile in profiles %}
+        <option value="{{ profile.id }}">{{ profile.name }}</option>
+    {% endfor %}
+    </select><br/>
+
+    <b>Then</b>, click this input and scan the badge: <input type="text" name="scanned_rfid_tag" placeholder="click here and scan the badge"><br/>
+
+    <input type="submit" value="Save">
+
+{% endblock %}
