@@ -1,16 +1,58 @@
 {% extends "admin/base_site.html" %}
 {% block content %}
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+<style>
+    ul.ui-autocomplete > li {
+        list-style-type: none;
+    }
+</style>
+
+<script>
+    $(function() {
+      $("#batch_person_name").autocomplete({
+        source: function(request, response) {
+          $.ajax({
+            url: "/admin/core/user/pre_register_rfid_tags_autocomplete/",
+            dataType: "json",
+            data: {
+              term: request.term
+            },
+            success: function(data) {
+              response(data.data);
+            }
+          });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+            // cancel so that the input is not filled with the value
+            event.preventDefault();
+
+            // set the hidden input!
+            $('input[name="rc_user_id"]').val(ui.item.id);
+
+            // set the 'found_person' to the person's name
+            $('#found_person').html(`You picked: ${ui.item.label}`);
+
+            // clear the autocomplete input
+            $(this).val('');
+        }
+      });
+    });
+</script>
+
 <h1>Pre-register RFID tags to users!</h1>
 
 <form method="post">
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <input type="hidden" name="rc_user_id">
 
-    <b>First</b>, pick the person: <select name="rc_user_id">
-    {% for profile in profiles %}
-        <option value="{{ profile.id }}">{{ profile.name }}</option>
-    {% endfor %}
-    </select><br/>
+    <b>First</b>, find the person by typing their name:
+
+    <input type="text" id="batch_person_name" />
+    <div id="found_person" style="font-weight:bold;color:green"></div>
 
     <b>Then</b>, click this input and scan the badge: <input type="text" name="scanned_rfid_tag" placeholder="click here and scan the badge"><br/>
 

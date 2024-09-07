@@ -73,3 +73,7 @@ def get_batches(token):
 
 def get_profiles_by_batch_id(token, batch_id):
     return _query(token, f"profiles?batch_id={batch_id}")
+
+
+def search_profiles_by_name(token, name):
+    return _query(token, f"profiles?query={name}")

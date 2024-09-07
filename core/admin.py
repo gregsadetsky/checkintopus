@@ -1,14 +1,13 @@
 import re
 
-import requests
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
-from django.shortcuts import redirect
+from django.http import JsonResponse
 from django.template.response import TemplateResponse
 from django.urls import path
 
 from .models import RFIDTagScanLog, Sound, User
-from .utils_rc_api import get_batches, get_profile, get_profiles_by_batch_id
+from .utils_rc_api import get_profile, search_profiles_by_name
 from .utils_rc_profile import get_latest_batch_name
 from .views_utils import refresh_user_token_if_needed
 
@@ -57,36 +56,39 @@ class MyUserAdmin(UserAdmin):
         my_urls = [
             path(
                 "pre_register_rfid_tags/",
-                self.admin_site.admin_view(self.pre_register_rfid_tags_pick_batch),
-                name="pre_register_rfid_tags_pick_batch",
-            ),
-            path(
-                "pre_register_rfid_tags/batch/<str:batch_id>/",
                 self.admin_site.admin_view(self.pre_register_rfid_tags_pick_user),
                 name="pre_register_rfid_tags_pick_user",
+            ),
+            path(
+                "pre_register_rfid_tags_autocomplete/",
+                self.admin_site.admin_view(self.pre_register_rfid_tags_autocomplete),
             ),
         ]
         return my_urls + urls
 
-    def pre_register_rfid_tags_pick_batch(self, request):
-        if request.method == "POST":
-            batch_id = request.POST["batch_id"]
-            return redirect("admin:pre_register_rfid_tags_pick_user", batch_id)
+    def pre_register_rfid_tags_autocomplete(self, request):
+        query = request.GET.get("term", "")
+        users = search_profiles_by_name(request.user.access_token, query)
+        users_out = []
+        for user in users:
+            batch_name = "?"
+            stints = user.get("stints")
+            if stints and len(stints):
+                batch = stints[0].get("batch")
+                if batch:
+                    batch_name = batch.get("short_name")
 
-        assert request.method == "GET"
+            users_out.append(
+                {
+                    "id": user["id"],
+                    "label": f'{user["name"]} ({batch_name})',
+                    "value": user["id"],
+                }
+            )
 
-        batches = get_batches(request.user.access_token)
-        batches = sorted(batches, key=lambda b: b["start_date"], reverse=True)
+        return JsonResponse({"data": users_out})
 
-        context = dict(
-            self.admin_site.each_context(request),
-            batches=batches,
-        )
-        return TemplateResponse(
-            request, "admin/core/user/pre_register_rfid_tags_pick_batch.html", context
-        )
-
-    def pre_register_rfid_tags_pick_user(self, request, batch_id):
+    def pre_register_rfid_tags_pick_user(self, request):
         if request.method == "POST":
             rc_user_id = request.POST["rc_user_id"]
             scanned_rfid_tag = request.POST["scanned_rfid_tag"]
@@ -98,7 +100,7 @@ class MyUserAdmin(UserAdmin):
                 )
             else:
                 tag_fc, tag_id = scanned_rfid_tag.split("-")
-                user, _ = User.objects.update_or_create(
+                User.objects.update_or_create(
                     rc_user_id=rc_user_id,
                     defaults={
                         "username": f"rc-{rc_user_id}",
@@ -111,12 +113,8 @@ class MyUserAdmin(UserAdmin):
                     f"Saved rfid tag {scanned_rfid_tag} for RC user {rc_user_id}",
                 )
 
-        profiles = get_profiles_by_batch_id(request.user.access_token, batch_id)
-        profiles = sorted(profiles, key=lambda p: p["name"])
-
         context = dict(
             self.admin_site.each_context(request),
-            profiles=profiles,
         )
         return TemplateResponse(
             request, "admin/core/user/pre_register_rfid_tags_pick_user.html", context
