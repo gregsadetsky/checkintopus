@@ -4,7 +4,13 @@
     {
         "web":
         {
-            "port": 8000
+            "port": 8000,
+            "volumes": [
+                {
+                    "name": "dataimport",
+                    "destinationPath": "/dataimport"
+                }
+            ]
         },
         "hook:deploy:start:before":
         {
